@@ -9,16 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 public class PersonDto {
-
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
-    private String email;
-
-    private String phone;
-
+    private String phoneNumber;
     private List<Cart> carts;
 }

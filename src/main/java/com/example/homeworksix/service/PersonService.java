@@ -7,14 +7,17 @@ import com.example.homeworksix.utils.exception.NotFoundException;
 import java.util.List;
 
 public interface PersonService {
+    PersonDto addPerson(PersonDto dto);
 
-    PersonDto createPerson(PersonDto personDto);
+    PersonDto removePersonById(Long id);
 
-    PersonDto getPersonById(Long id) throws NotFoundException;
-
-    PersonDto updatePerson(PersonDto personDto);
-
-    void deletePerson(Long id) throws NotFoundException;
+    PersonDto getPersonById(Long id);
 
     List<PersonDto> getAllPersons();
+
+    Long updatePersonFirstNameById(Long id, PersonDto dto);
+
+    Long updatePersonLastNameById(Long id, PersonDto dto);
+
+    Long updatePersonPhoneNumberById(Long id, PersonDto dto);
 }

@@ -7,15 +7,15 @@ import com.example.homeworksix.utils.exception.NotFoundException;
 import java.util.List;
 
 public interface ProductService {
+    Long addProduct(ProductDto dto);
 
-    ProductDto createProduct(ProductDto productDto) throws NotFoundException;
+    Long removeProductById(Long id);
 
-    ProductDto getProductById(Long productId) throws NotFoundException;
-
-    ProductDto updateProduct(ProductDto productDto);
-
-    void deleteProduct(Long productId) throws NotFoundException;
+    ProductDto getProductById(Long id);
 
     List<ProductDto> getAllProducts();
 
+    Long updateProductNameById(Long id, ProductDto dto);
+
+    Long updateProductPriceById(Long id, ProductDto dto);
 }

@@ -3,28 +3,26 @@ package com.example.homeworksix.converter;
 import com.example.homeworksix.dto.PersonDto;
 import com.example.homeworksix.model.Person;
 
-public final class PersonConverter {
+public class PersonConverter {
 
-    public static PersonDto getPersonDtoFromPerson (Person person) {
+    public static PersonDto convertPersonToPersonDto(Person person) {
         PersonDto personDto = new PersonDto();
         personDto.setId(person.getId());
         personDto.setFirstName(person.getFirstName());
         personDto.setLastName(person.getLastName());
-        personDto.setEmail(person.getEmail());
-        personDto.setPhone(person.getPhone());
+        personDto.setPhoneNumber(person.getPhoneNumber());
         personDto.setCarts(person.getCarts());
         return personDto;
     }
 
-    public static Person getPersonFromPersonDto (PersonDto personDto) {
-        Person person = new Person ();
+    public static Person convertPersonDtoToPerson(PersonDto personDto) {
+        Person person = new Person();
         person.setId(personDto.getId());
         person.setFirstName(personDto.getFirstName());
         person.setLastName(personDto.getLastName());
-        person.setEmail(personDto.getEmail());
-        person.setPhone(personDto.getPhone());
+        person.setPhoneNumber(personDto.getPhoneNumber());
         person.setCarts(personDto.getCarts());
         return person;
     }
-
 }
+

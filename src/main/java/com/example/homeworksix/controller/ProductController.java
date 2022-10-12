@@ -5,48 +5,83 @@ import com.example.homeworksix.model.Product;
 import com.example.homeworksix.service.ProductService;
 import com.example.homeworksix.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(path="/api/product")
+@Controller
+@RequestMapping("/products")
 public class ProductController {
-
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @PostMapping("/create")
-    @ResponseStatus(HttpStatus.OK)
-    public ProductDto createProduct(@RequestBody ProductDto productDto) throws NotFoundException {
-        return productService.createProduct(productDto);
+    @RequestMapping(method = RequestMethod.GET)
+    public String productIndex(Model model) {
+        String message = "Product control page";
+        model.addAttribute("message", message);
+        return "productIndex";
     }
 
-    @GetMapping()
-    @ResponseStatus(HttpStatus.OK)
-    public ProductDto getProductById(@RequestParam Long productId) throws NotFoundException {
-        return productService.getProductById(productId);
+    @RequestMapping(value = "/add_product", method = RequestMethod.GET)
+    public String addProductView(Model model) {
+        model.addAttribute("product", new ProductDto());
+        return "addProduct";
     }
 
-    @PutMapping ("/update")
-    @ResponseStatus(HttpStatus.OK)
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return productService.updateProduct(productDto);
+    @RequestMapping(value = "/add_product", method = RequestMethod.POST)
+    public String addProduct(@ModelAttribute("product") ProductDto productDto) {
+        productService.addProduct(productDto);
+        return "addProductSuccess";
     }
 
-    @DeleteMapping("/delete")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@RequestParam Long productId) throws NotFoundException {
-        productService.deleteProduct(productId);
+    @RequestMapping(value = "/remove_product", method = RequestMethod.GET)
+    public String removeProductByIdView(Model model) {
+        model.addAttribute("product", new ProductDto());
+        return "removeProduct";
     }
 
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public List<ProductDto> getAll() {
-        return productService.getAllProducts();
+    @RequestMapping(value = "/remove_product", method = {RequestMethod.DELETE, RequestMethod.POST})
+    @Transactional
+    public String removeProductById(@ModelAttribute("person") ProductDto productDto) {
+        productService.removeProductById(productDto.getId());
+        return "removeProductSuccess";
+    }
+
+    @GetMapping( "/all_products")
+    public String getAllProducts(Model model) {
+        model.addAttribute("all", productService.getAllProducts());
+        return "allProducts";
+    }
+
+    @RequestMapping(value = "/update_name", method = RequestMethod.GET)
+    public String updateProductNameByIdView(Model model) {
+        model.addAttribute("product", new ProductDto());
+        return "updateProductName";
+    }
+
+    @RequestMapping(value = "/update_name", method = {RequestMethod.PUT, RequestMethod.POST})
+    @Transactional
+    public String updateProductNameById(@ModelAttribute("product") ProductDto productDto) {
+        productService.updateProductNameById(productDto.getId(), productDto);
+        return "updateProductNameSuccess";
+    }
+
+    @RequestMapping(value = "/update_price", method = RequestMethod.GET)
+    public String updateProductPriceByIdView(Model model) {
+        model.addAttribute("product", new ProductDto());
+        return "updateProductPrice";
+    }
+
+    @RequestMapping(value = "/update_price", method = {RequestMethod.PUT, RequestMethod.POST})
+    @Transactional
+    public String updateProductPriceById(@ModelAttribute("product") ProductDto productDto) {
+        productService.updateProductPriceById(productDto.getId(), productDto);
+        return "updateProductPriceSuccess";
     }
 }
-

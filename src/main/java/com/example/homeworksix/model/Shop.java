@@ -14,19 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Shop {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String name;
-    private String address;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Product> products = new ArrayList<>();
 
-    public Shop(String name, String address) {
+    public Shop(String name) {
         this.name = name;
-        this.address = address;
     }
 }

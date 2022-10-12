@@ -10,8 +10,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.homeworksix.converter.PersonConverter.getPersonDtoFromPerson;
-import static com.example.homeworksix.converter.PersonConverter.getPersonFromPersonDto;
+import static com.example.homeworksix.converter.PersonConverter.convertPersonToPersonDto;
+
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -23,46 +23,77 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDto createPerson(PersonDto personDto) {
-        return getPersonDtoFromPerson(personRepository.save(getPersonFromPersonDto(personDto)));
+    public PersonDto addPerson(PersonDto dto) {
+        return convertPersonToPersonDto(personRepository.save(new Person(dto.getFirstName(), dto.getLastName(), dto.getPhoneNumber())));
     }
 
     @Override
-    public PersonDto getPersonById(Long id) throws NotFoundException {
-        if (personRepository.findById(id).isPresent()) {
-            return getPersonDtoFromPerson(personRepository.findById(id).get());
-        } else {
-            throw new NotFoundException("Person with ID #" + id + " is not found");
-        }
-    }
-
-    @Override
-    public void deletePerson(Long id) throws NotFoundException {
+    public PersonDto removePersonById(Long id) {
         if (personRepository.existsById(id)) {
+            PersonDto personDto = convertPersonToPersonDto(personRepository.findById(id).get());
             personRepository.deleteById(id);
-        } else {
+            return personDto;
+        }
+        try {
             throw new NotFoundException("Person with ID #" + id + " is not found");
+        } catch (NotFoundException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
     @Override
-    public PersonDto updatePerson(PersonDto personDto) {
-        return personRepository.findById(personDto.getId())
-                .map(entity -> {
-                    entity.setFirstName(personDto.getFirstName());
-                    entity.setLastName(personDto.getLastName());
-                    entity.setEmail(personDto.getEmail());
-                    entity.setPhone(personDto.getPhone());
-                    personRepository.save(entity);
-                    return getPersonDtoFromPerson(entity);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("Not Found id = " + personDto.getId()));
+    public PersonDto getPersonById(Long id) {
+        if (personRepository.findById(id).isPresent()) {
+            return convertPersonToPersonDto(personRepository.findById(id).get());
+        }
+        try {
+            throw new NotFoundException("Person with ID #" + id + " is not found");
+        } catch (NotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
     public List<PersonDto> getAllPersons() {
         List<PersonDto> personDtoList = new ArrayList<>();
-        personRepository.findAll().forEach(person -> personDtoList.add(getPersonDtoFromPerson(person)));
+        personRepository.findAll().forEach(person -> personDtoList.add(convertPersonToPersonDto(person)));
         return personDtoList;
     }
+
+    @Override
+    public Long updatePersonFirstNameById(Long id, PersonDto dto) {
+        if (personRepository.existsById(id)) {
+            return Long.valueOf(personRepository.updatePersonFirstNameById(id, dto.getFirstName()));
+        }
+        try {
+            throw new NotFoundException("Person with ID #" + id + " is not found");
+        } catch (NotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public Long updatePersonLastNameById(Long id, PersonDto dto) {
+        if (personRepository.existsById(id)) {
+            return Long.valueOf(personRepository.updatePersonLastNameById(id, dto.getLastName()));
+        }
+        try {
+            throw new NotFoundException("Person with ID #" + id + " is not found");
+        } catch (NotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public Long updatePersonPhoneNumberById(Long id, PersonDto dto) {
+        if (personRepository.existsById(id)) {
+            return Long.valueOf(personRepository.updatePersonPhoneNumberById(id, dto.getPhoneNumber()));
+        }
+        try {
+            throw new NotFoundException("Person with ID #" + id + " is not found");
+        } catch (NotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }
+

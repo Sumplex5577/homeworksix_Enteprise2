@@ -3,24 +3,24 @@ package com.example.homeworksix.converter;
 import com.example.homeworksix.dto.ProductDto;
 import com.example.homeworksix.model.Product;
 
-public final class ProductConverter {
-
-    public static ProductDto getProductDtoFromProduct (Product product) {
+public class ProductConverter {
+    public static ProductDto convertProductToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
-        productDto.setShopId(product.getShop().getId());
-        productDto.setProductId(product.getId());
         productDto.setShop(product.getShop());
+        productDto.setShopId(product.getShop().getId());
         return productDto;
     }
 
-    public static Product getProductFromProductDto (ProductDto productDto) {
-        Product product = new Product ();
+    public static Product convertProductDtoToProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
-        product.setId(productDto.getProductId());
         product.setShop(productDto.getShop());
         return product;
     }
+
 }

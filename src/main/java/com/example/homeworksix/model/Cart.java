@@ -14,23 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Cart {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
-
+    private Long id;
     @ManyToOne
     private Person person;
-
     @OneToMany(orphanRemoval = true)
     @JoinColumn
     private List<Product> products = new ArrayList<>();
-
+    private Integer amountOfProducts = 0;
     private BigDecimal sum = new BigDecimal("0.00");
-
     public Cart(Person person) {
         this.person = person;
     }
-
 }
-
