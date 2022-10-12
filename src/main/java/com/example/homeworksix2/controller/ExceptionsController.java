@@ -14,3 +14,4 @@ public class ExceptionsController implements ErrorController {
         return "Sorry, something went wrong. Try again, be sure that all IDs are real objects IDs";
     }
 }
+

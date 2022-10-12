@@ -6,7 +6,7 @@
     <title>Persons control page</title>
 </head>
 <body>
-<a href="http://localhost:9092">&#8592 Back</a>
+<a href="http://localhost:8080">&#8592 Back</a>
 <div align="center">
     <h1>${message}</h1>
     <h3>Click the following link to view all persons:</h3>

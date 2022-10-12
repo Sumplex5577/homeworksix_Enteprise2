@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
+
     @Modifying
     @Query("update Person set firstName = ?2 where id = ?1")
     Integer updatePersonFirstNameById(Long id, String firstName);

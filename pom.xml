@@ -12,12 +12,11 @@
 	<artifactId>homeworkfour</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>homeworkfour</name>
-	<description>homeworkfour</description>
+	<description>homeworksix</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
